@@ -21,8 +21,6 @@
   </ItemGroup>
 
   <ItemGroup>
-    <Folder Include="Domain\Persistence\Contexts\" />
-    <Folder Include="Domain\Services\Communications\" />
     <Folder Include="Exceptions\" />
     <Folder Include="Extensions\" />
     <Folder Include="Mapping\" />
