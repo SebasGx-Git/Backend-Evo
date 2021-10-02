@@ -6,3 +6,5 @@ build_property.ProjectTypeGuids =
 build_property.PublishSingleFile = 
 build_property.IncludeAllContentForSelfExtract = 
 build_property._SupportedPlatformList = Android,iOS,Linux,macOS,Windows
+build_property.RootNamespace = PeruStars_2
+build_property.ProjectDir = D:\Universidad\Ciclo 6\Evo\Proyecto Actual\Backend-Evo\PeruStars_2\PeruStars_2\
