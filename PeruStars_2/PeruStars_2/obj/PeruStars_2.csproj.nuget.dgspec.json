@@ -1,24 +1,20 @@
 {
   "format": 1,
   "restore": {
-    "D:\\Universidad\\Ciclo 6\\Evo\\Proyecto Actual\\Backend-Evo\\PeruStars_2\\PeruStars_2\\PeruStars_2.csproj": {}
+    "D:\\Desktop\\Backend-Evo\\Backend-Evo\\PeruStars_2\\PeruStars_2\\PeruStars_2.csproj": {}
   },
   "projects": {
-    "D:\\Universidad\\Ciclo 6\\Evo\\Proyecto Actual\\Backend-Evo\\PeruStars_2\\PeruStars_2\\PeruStars_2.csproj": {
+    "D:\\Desktop\\Backend-Evo\\Backend-Evo\\PeruStars_2\\PeruStars_2\\PeruStars_2.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "D:\\Universidad\\Ciclo 6\\Evo\\Proyecto Actual\\Backend-Evo\\PeruStars_2\\PeruStars_2\\PeruStars_2.csproj",
+        "projectUniqueName": "D:\\Desktop\\Backend-Evo\\Backend-Evo\\PeruStars_2\\PeruStars_2\\PeruStars_2.csproj",
         "projectName": "PeruStars_2",
-        "projectPath": "D:\\Universidad\\Ciclo 6\\Evo\\Proyecto Actual\\Backend-Evo\\PeruStars_2\\PeruStars_2\\PeruStars_2.csproj",
-        "packagesPath": "C:\\Users\\Windows\\.nuget\\packages\\",
-        "outputPath": "D:\\Universidad\\Ciclo 6\\Evo\\Proyecto Actual\\Backend-Evo\\PeruStars_2\\PeruStars_2\\obj\\",
+        "projectPath": "D:\\Desktop\\Backend-Evo\\Backend-Evo\\PeruStars_2\\PeruStars_2\\PeruStars_2.csproj",
+        "packagesPath": "C:\\Users\\SEBASTIAN\\.nuget\\packages\\",
+        "outputPath": "D:\\Desktop\\Backend-Evo\\Backend-Evo\\PeruStars_2\\PeruStars_2\\obj\\",
         "projectStyle": "PackageReference",
-        "fallbackFolders": [
-          "C:\\Program Files (x86)\\Microsoft Visual Studio\\Shared\\NuGetPackages"
-        ],
         "configFilePaths": [
-          "C:\\Users\\Windows\\AppData\\Roaming\\NuGet\\NuGet.Config",
-          "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.FallbackLocation.config",
+          "C:\\Users\\SEBASTIAN\\AppData\\Roaming\\NuGet\\NuGet.Config",
           "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.Offline.config"
         ],
         "originalTargetFrameworks": [
