@@ -25,7 +25,6 @@
     <Folder Include="Extensions\" />
     <Folder Include="Mapping\" />
     <Folder Include="Settings\" />
-    <Folder Include="Services\" />
     <Folder Include="Resources\" />
     <Folder Include="Persistence\Repositories\" />
   </ItemGroup>
