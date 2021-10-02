@@ -3,10 +3,10 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 
-namespace PeruStars_2.Domain.Persistence.Repositories
+namespace PeruStars_2.Settings
 {
-    public interface IUnitOfWork
+    public class AppSettings
     {
-        Task CompleteAsync();
+        public string Secret { get; set; }
     }
 }

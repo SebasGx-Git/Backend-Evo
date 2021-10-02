@@ -20,12 +20,4 @@
     <PackageReference Include="Swashbuckle.AspNetCore.Annotations" Version="6.2.2" />
   </ItemGroup>
 
-  <ItemGroup>
-    <Folder Include="Exceptions\" />
-    <Folder Include="Extensions\" />
-    <Folder Include="Settings\" />
-    <Folder Include="Resources\" />
-    <Folder Include="Persistence\Repositories\" />
-  </ItemGroup>
-
 </Project>
