@@ -23,5 +23,6 @@ namespace PeruStars_2.Domain.Services.Communications
             Success = false;
             Message = message;
         }
+
     }
 }

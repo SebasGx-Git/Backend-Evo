@@ -4,6 +4,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 
+
 namespace PeruStars_2.Domain.Services.Communications
 {
     public class HobbyistResponse : BaseResponse<Hobbyist>

@@ -10,6 +10,8 @@ namespace PeruStars_2.Domain.Services
     public interface ISpecialtyService
     {
         Task<IEnumerable<Specialty>> ListAsync();
-        Task<SpecialtyResponse> GetByIdAsync(long id);
+        Task<IEnumerable<Specialty>> ListByHobbyistIdAsync(int hobbyistId);
+        Task<SpecialtyResponse> GetByIdAsync(long specialtyId);       
+
     }
 }
