@@ -6546,19 +6546,19 @@
     ]
   },
   "packageFolders": {
-    "C:\\Users\\SEBASTIAN\\.nuget\\packages\\": {}
+    "C:\\Users\\ASUS TUF\\.nuget\\packages\\": {}
   },
   "project": {
     "version": "1.0.0",
     "restore": {
-      "projectUniqueName": "D:\\Desktop\\Backend-Evo\\Backend-Evo\\PeruStars_2\\PeruStars_2\\PeruStars_2.csproj",
+      "projectUniqueName": "D:\\Trabajo UPC\\Ciclo 6\\Evolución de software\\project-peruStars\\Backend-Evo\\PeruStars_2\\PeruStars_2\\PeruStars_2.csproj",
       "projectName": "PeruStars_2",
-      "projectPath": "D:\\Desktop\\Backend-Evo\\Backend-Evo\\PeruStars_2\\PeruStars_2\\PeruStars_2.csproj",
-      "packagesPath": "C:\\Users\\SEBASTIAN\\.nuget\\packages\\",
-      "outputPath": "D:\\Desktop\\Backend-Evo\\Backend-Evo\\PeruStars_2\\PeruStars_2\\obj\\",
+      "projectPath": "D:\\Trabajo UPC\\Ciclo 6\\Evolución de software\\project-peruStars\\Backend-Evo\\PeruStars_2\\PeruStars_2\\PeruStars_2.csproj",
+      "packagesPath": "C:\\Users\\ASUS TUF\\.nuget\\packages\\",
+      "outputPath": "D:\\Trabajo UPC\\Ciclo 6\\Evolución de software\\project-peruStars\\Backend-Evo\\PeruStars_2\\PeruStars_2\\obj\\",
       "projectStyle": "PackageReference",
       "configFilePaths": [
-        "C:\\Users\\SEBASTIAN\\AppData\\Roaming\\NuGet\\NuGet.Config",
+        "C:\\Users\\ASUS TUF\\AppData\\Roaming\\NuGet\\NuGet.Config",
         "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.Offline.config"
       ],
       "originalTargetFrameworks": [
@@ -6655,7 +6655,7 @@
             "privateAssets": "all"
           }
         },
-        "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\5.0.401\\RuntimeIdentifierGraph.json"
+        "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\5.0.301\\RuntimeIdentifierGraph.json"
       }
     }
   }
