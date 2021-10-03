@@ -12,12 +12,14 @@ namespace PeruStars_2.Services
     public class ArtistService : IArtistService
     {
         private readonly IArtistRepository _artistRepository;
-        private readonly IUnitofWork _unitOfWork;
+        private readonly IFollowerRepository _followerRepository;
+        private readonly IUnitOfWork _unitOfWork;
 
-        public ArtistService(IArtistRepository artistRepository, IUnitofWork unitOfWork)
+        public ArtistService(IArtistRepository artistRepository, IUnitOfWork unitOfWork, IFollowerRepository followerRepository)
         {
             _artistRepository = artistRepository;
             _unitOfWork = unitOfWork;
+            _followerRepository = followerRepository;
         }
 
         public async Task<ArtistResponse> DeleteAsync(long id)
@@ -49,13 +51,31 @@ namespace PeruStars_2.Services
             return new ArtistResponse(existingArtist);
         }
 
+        public async Task<bool> isSameBrandingName(string brandingname)
+        {
+            return await _artistRepository.isSameBrandingName(brandingname);
+
+        }
+
         public async Task<IEnumerable<Artist>> ListAsync()
         {
             return await _artistRepository.ListAsync();
         }
 
+        public async Task<IEnumerable<Artist>> ListByHobbyistIdAsync(int hobbyistId)
+        {
+            var follows = await _followerRepository.ListByHobbyistIdAsync(hobbyistId);
+            var artists = follows.Select(f => f.Artist).ToList();
+            return artists;
+        }
+
         public async Task<ArtistResponse> SaveAsync(Artist artist)
         {
+            if (_artistRepository.isSameBrandingName(artist.BrandName).Result == true)
+            {
+                return new ArtistResponse($"Your Brand Name is already in use");
+            }
+
             try
             {
                 await _artistRepository.AddAsync(artist);
@@ -76,12 +96,20 @@ namespace PeruStars_2.Services
             if (existingArtist == null)
                 return new ArtistResponse("Artist not found");
 
+            if (existingArtist.BrandName != artist.BrandName)
+            {
+                if (_artistRepository.isSameBrandingName(artist.BrandName).Result == true)
+                {
+                    return new ArtistResponse($"Your NEW Brand Name is already in use");
+                }
+            }
+
             existingArtist.Firstname = artist.Firstname;
             existingArtist.Lastname = artist.Lastname;
             existingArtist.BrandName = artist.BrandName;
             existingArtist.Description = artist.Description;
             existingArtist.Phrase = artist.Phrase;
-            existingArtist.SpecialtyArt = artist.SpecialtyArt;
+            existingArtist.SpecialtyId = artist.SpecialtyId;
 
             try
             {

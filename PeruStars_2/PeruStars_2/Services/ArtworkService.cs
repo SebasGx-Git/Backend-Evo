@@ -1,4 +1,5 @@
-﻿using PeruStars_2.Domain.Models;
+﻿using Microsoft.AspNetCore.Mvc;
+using PeruStars_2.Domain.Models;
 using PeruStars_2.Domain.Persistence.Repositories;
 using PeruStars_2.Domain.Services;
 using PeruStars_2.Domain.Services.Communications;
@@ -12,14 +13,30 @@ namespace PeruStars_2.Services
     public class ArtworkService : IArtworkService
     {
         private readonly IArtworkRepository _artworkRepository;
-        private readonly IUnitofWork _unitOfWork;
+        private readonly IArtistRepository _artistRepository;
+        private readonly IFavoriteArtworkRepository _favoriteArtworkRepository;
+        private readonly IUnitOfWork _unitOfWork;
 
-        public async Task<ArtworkResponse> DeleteAsync(long id)
+        public ArtworkService(IArtworkRepository artworkRepository, IUnitOfWork unitOfWork, IFavoriteArtworkRepository favoriteArtworkRepository, IArtistRepository artistRepository)
         {
-            var existingArtwork = await _artworkRepository.FindById(id);
+            _artworkRepository = artworkRepository;
+            _unitOfWork = unitOfWork;
+            _favoriteArtworkRepository = favoriteArtworkRepository;
+            _artistRepository = artistRepository;
+        }
 
+        public async Task<ArtworkResponse> DeleteAsync(long artworkId, long artistId)
+        {
+            var existingArtist = await _artistRepository.FindById(artistId);
+            if (existingArtist == null)
+                return new ArtworkResponse("Artist not found");
+
+            var existingArtwork = await _artworkRepository.FindById(artworkId);
             if (existingArtwork == null)
                 return new ArtworkResponse("Artwork not found");
+
+            if (!existingArtist.Artworks.Contains(existingArtwork))
+                return new ArtworkResponse("Artwork not found by Artist with Id: " + artistId);
 
             try
             {
@@ -34,13 +51,25 @@ namespace PeruStars_2.Services
             }
         }
 
-        public async Task<ArtworkResponse> GetByIdAsync(long id)
+        public async Task<ArtworkResponse> GetByIdAndArtistIdAsync(long artworkId, long artistId)
         {
-            var existingArtwork = await _artworkRepository.FindById(id);
+            var existingArtist = await _artistRepository.FindById(artistId);
+            if (existingArtist == null)
+                return new ArtworkResponse("Artist not found");
 
+            var existingArtwork = await _artworkRepository.FindById(artworkId);
             if (existingArtwork == null)
                 return new ArtworkResponse("Artwork not found");
+
+            if (!existingArtist.Artworks.Contains(existingArtwork))
+                return new ArtworkResponse("Artwork not found by Artist with Id: " + artistId);
+
             return new ArtworkResponse(existingArtwork);
+        }
+
+        public async Task<bool> isSameTitle(string title, long ArtistId)
+        {
+            return await _artworkRepository.isSameTitle(title, ArtistId);
         }
 
         public async Task<IEnumerable<Artwork>> ListAsync()
@@ -53,8 +82,26 @@ namespace PeruStars_2.Services
             return await _artworkRepository.ListByArtistIdAsync(id);
         }
 
-        public async Task<ArtworkResponse> SaveAsync(Artwork artwork)
+        public async Task<IEnumerable<Artwork>> ListByHobbyistAsync(long hobbyistId)
         {
+            var favoriteArtwork = await _favoriteArtworkRepository.ListByHobbyistIdAsync(hobbyistId);
+            var artworks = favoriteArtwork.Select(pt => pt.Artwork).ToList();
+            return artworks;
+        }
+
+        public async Task<ArtworkResponse> SaveAsync(long artistId, Artwork artwork)
+        {
+            var existingArtist = await _artistRepository.FindById(artistId);
+            if (existingArtist == null)
+                return new ArtworkResponse("Artist not found");
+
+            artwork.ArtistId = artistId;
+
+            if (_artworkRepository.isSameTitle(artwork.ArtTitle, artwork.ArtistId).Result == true)
+            {
+                return new ArtworkResponse($"You already created an artwork with the same title");
+            }
+
             try
             {
                 await _artworkRepository.AddAsync(artwork);
@@ -68,17 +115,32 @@ namespace PeruStars_2.Services
             }
         }
 
-        public async Task<ArtworkResponse> UpdateAsync(long id, Artwork artwork)
+        public async Task<ArtworkResponse> UpdateAsync(long artworkId, long artistId, Artwork artwork)
         {
-            var existingArtwork = await _artworkRepository.FindById(id);
+            var existingArtist = await _artistRepository.FindById(artistId);
+            if (existingArtist == null)
+                return new ArtworkResponse("Artist not found");
 
+            var existingArtwork = await _artworkRepository.FindById(artworkId);
             if (existingArtwork == null)
                 return new ArtworkResponse("Artist not found");
+
+            if (!existingArtist.Artworks.Contains(existingArtwork))
+                return new ArtworkResponse("Artwork not found by Artist with Id: " + artistId);
+
+            if (existingArtwork.ArtTitle != artwork.ArtTitle)
+            { // si el titulo nuevo es diferente al titulo existente
+                if (_artworkRepository.isSameTitle(artwork.ArtTitle, artistId).Result == true) // se verifica si el titulo nuevo es igual a cualquier titulo de obras del artista
+                {
+                    return new ArtworkResponse($"You already created an artwork with the same title");
+                }
+            }
 
             existingArtwork.ArtTitle = artwork.ArtTitle;
             existingArtwork.ArtDescription = artwork.ArtDescription;
             existingArtwork.ArtCost = artwork.ArtCost;
             existingArtwork.LinkInfo = artwork.LinkInfo;
+            existingArtwork.ArtistId = artistId;
 
             try
             {
@@ -92,5 +154,6 @@ namespace PeruStars_2.Services
                 return new ArtworkResponse($"An error ocurred while updating the artwork: {ex.Message}");
             }
         }
+
     }
 }
