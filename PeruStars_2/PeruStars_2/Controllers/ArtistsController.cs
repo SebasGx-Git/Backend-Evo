@@ -1,18 +1,18 @@
 ﻿using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
-using PERUSTARS.Domain.Services;
-using PERUSTARS.Domain.Models;
-using PERUSTARS.Resources;
+using PeruStars_2.Domain.Services;
+using PeruStars_2.Domain.Models;
+using PeruStars_2.Resources;
 using AutoMapper;
 using Swashbuckle.AspNetCore.Annotations;
-using PERUSTARS.Extensions;
+using PeruStars_2.Extensions;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 
 
-namespace PERUSTARS.Controllers
+namespace PeruStars_2.Controllers
 {
     [Route("api/[controller]")]
     [Produces("application/json")]

@@ -12,6 +12,10 @@ namespace PeruStars_2.Domain.Services
         Task<IEnumerable<ClaimTicket>> ListAsync();
 
         Task<IEnumerable<ClaimTicket>> ListAsyncByPersonId(long Id);
+
+        Task<IEnumerable<ClaimTicket>> ListAsyncByReportedPersonId(long personId);
+
+        Task<ClaimTicketResponse> GetByIdAndPersonIdAsync(long personId, long claimTicketId);
         Task<ClaimTicketResponse> GetByIdAsync(long id);
         Task<ClaimTicketResponse> SaveAsync(ClaimTicket claimTicket);
         Task<ClaimTicketResponse> UpdateAsync(long id, ClaimTicket claimTicket);

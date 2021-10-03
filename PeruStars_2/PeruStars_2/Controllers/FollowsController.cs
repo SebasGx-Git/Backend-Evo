@@ -1,13 +1,13 @@
 ﻿using AutoMapper;
 using Microsoft.AspNetCore.Mvc;
-using PERUSTARS.Domain.Models;
-using PERUSTARS.Domain.Services;
-using PERUSTARS.Resources;
+using PeruStars_2.Domain.Models;
+using PeruStars_2.Domain.Services;
+using PeruStars_2.Resources;
 using Swashbuckle.AspNetCore.Annotations;
 using System.Collections.Generic;
 using System.Threading.Tasks;
 
-namespace PERUSTARS.Controllers
+namespace PeruStars_2.Controllers
 {
     [Route("/api/hobbyists/{hobbyistId}/follows")]
     [Produces("application/json")]
