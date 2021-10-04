@@ -1,16 +1,20 @@
+using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
-using Microsoft.AspNetCore.HttpsPolicy;
-using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
-using Microsoft.Extensions.Logging;
+using Microsoft.IdentityModel.Tokens;
 using Microsoft.OpenApi.Models;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
+using PeruStars_2.Domain.Persistence.Contexts;
+using PeruStars_2.Domain.Persistence.Repositories;
+using PeruStars_2.Domain.Services;
+using PeruStars_2.Persistence.Repositories;
+using PeruStars_2.Services;
+using PeruStars_2.Settings;
+using System.Text;
+
 
 namespace PeruStars_2
 {
@@ -26,11 +30,85 @@ namespace PeruStars_2
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
+            //Add CORS Support
+            services.AddCors();
 
             services.AddControllers();
+
+            //AppSettings Section Reference
+            var appSettingsSection = Configuration.GetSection("AppSettings");
+            services.Configure<AppSettings>(appSettingsSection);
+
+            //JSON Web Token Authentication Configuration
+            var appSettings = appSettingsSection.Get<AppSettings>();
+            var key = Encoding.ASCII.GetBytes(appSettings.Secret);
+
+            //Authentication Service Configuration
+            services.AddAuthentication(x =>
+            {
+                x.DefaultAuthenticateScheme = JwtBearerDefaults.AuthenticationScheme;
+                x.DefaultChallengeScheme = JwtBearerDefaults.AuthenticationScheme;
+            })
+                .AddJwtBearer(x =>
+                {
+                    x.RequireHttpsMetadata = false;
+                    x.SaveToken = true;
+                    x.TokenValidationParameters = new TokenValidationParameters
+                    {
+                        ValidateIssuerSigningKey = true,
+                        IssuerSigningKey = new SymmetricSecurityKey(key),
+                        ValidateIssuer = false,
+                        ValidateAudience = false
+                    };
+                });
+
+            //Database
+
+            services.AddDbContext<AppDbContext>(options =>
+            {
+                options.UseMySQL(Configuration.GetConnectionString("DefaultConnection"));
+            });
+
+            // Dependency Injection Configuration
+
+            services.AddScoped<IArtistRepository, ArtistRepository>();
+            services.AddScoped<IArtworkRepository, ArtworkRepository>();
+            services.AddScoped<IHobbyistRepository, HobbyistRepository>();
+            services.AddScoped<IEventRepository, EventRepository>();
+            services.AddScoped<IClaimTicketRepository, ClaimTicketRepository>();
+            services.AddScoped<IInterestRepository, InterestRepository>();
+            services.AddScoped<IFavoriteArtworkRepository, FavoriteArtworkRepository>();
+            services.AddScoped<ISpecialtyRepository, SpecialtyRepository>();
+            services.AddScoped<IFollowerRepository, FollowerRepository>();
+            services.AddScoped<IEventAssistanceRepository, EventAssistanceRepository>();
+            services.AddScoped<IUserRepository, UserRepository>();
+
+            services.AddScoped<IUnitOfWork, UnitOfWork>();
+
+            services.AddScoped<IArtworkService, ArtworkService>();
+            services.AddScoped<IArtistService, ArtistService>();
+            services.AddScoped<IHobbyistService, HobbyistService>();
+            services.AddScoped<ISpecialtyService, SpecialtyService>();
+            services.AddScoped<IFollowerService, FollowerService>();
+            services.AddScoped<IEventService, EventService>();
+            services.AddScoped<IInterestService, InterestService>();
+            services.AddScoped<IEventAssistanceService, EventAssistanceService>();
+            services.AddScoped<IFavoriteArtworkService, FavoriteArtworkService>();
+            services.AddScoped<IClaimTicketService, ClaimTicketService>();
+            services.AddScoped<ISpecialtyService, SpecialtyService>();
+            services.AddScoped<IUserService, UserService>();
+
+
+            // Apply Endpoints Naming Convention
+            services.AddRouting(options => options.LowercaseUrls = true);
+
+            // AutoMapper Setup
+            services.AddAutoMapper(typeof(Startup).Assembly);
+
             services.AddSwaggerGen(c =>
             {
-                c.SwaggerDoc("v1", new OpenApiInfo { Title = "PeruStars_2", Version = "v1" });
+                c.SwaggerDoc("v1", new OpenApiInfo { Title = "PERUSTARS_2", Version = "v1" });
+                c.EnableAnnotations();
             });
         }
 
@@ -47,6 +125,12 @@ namespace PeruStars_2
             app.UseHttpsRedirection();
 
             app.UseRouting();
+
+            // CORS Configuration
+            app.UseCors(x => x.SetIsOriginAllowed(origin => true)
+                .AllowAnyMethod()
+                .AllowAnyHeader()
+                .AllowCredentials());
 
             app.UseAuthorization();
 
